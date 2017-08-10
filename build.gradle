@@ -24,6 +24,7 @@ allprojects {
 
 def dseSubprojects = subprojects.inject([]) { l, subproject ->
     if (subproject.name != "opt4j" &&
+        subproject.name != "opendse" &&
         subproject.name != "Examples") {
       l.add(subproject.path+":jar")
     }
@@ -34,6 +35,7 @@ def dseSubprojects = subprojects.inject([]) { l, subproject ->
 dependencies {
   subprojects.each { subproject ->
       if (subproject.name != "opt4j" &&
+          subproject.name != "opendse" &&
           subproject.name != "Examples") {
         compile subproject
       }
