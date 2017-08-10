@@ -4,7 +4,9 @@
 
 def findSubprojects(File projectDir, String projectPrefix) {
   for (File file : projectDir.listFiles()) {
-    if (file.isDirectory() && !file.getName().equals("buildSrc")) {
+    if (file.isDirectory() &&
+        !file.getName().equals("buildSrc") &&
+        !file.getName().equals("bin")) {
       File buildGradle = new File(file, "build.gradle");
       if (buildGradle.exists()) {
         String projectPath = projectPrefix+file.getName();
@@ -17,23 +19,3 @@ def findSubprojects(File projectDir, String projectPrefix) {
 }
 
 findSubprojects(rootProject.projectDir, "")
-
-//include "opt4j"
-
-//include 'opt4j:opt4j-core'
-//include 'opt4j:opt4j-satdecoding'
-//include 'opt4j:opt4j-benchmarks'
-//include 'opt4j:opt4j-optimizers'
-//include 'opt4j:opt4j-operators'
-//include 'opt4j:opt4j-viewer'
-//include 'opt4j:opt4j-tutorial'
-
-//include 'dseconstraintcommons'
-//include 'dse'
-//include 'dsegui'
-//include 'dsesgx'
-//include 'dsevpc'
-//include 'dsesystemoc'
-//include 'dseautomotive'
-//include 'dseclu'
-//include 'SystemC-VPC'
