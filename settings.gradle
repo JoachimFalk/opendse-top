@@ -1,0 +1,39 @@
+
+//System.out.println("Working Directory = " +
+//  System.getProperty("user.dir"));
+
+def findSubprojects(File projectDir, String projectPrefix) {
+  for (File file : projectDir.listFiles()) {
+    if (file.isDirectory() && !file.getName().equals("buildSrc")) {
+      File buildGradle = new File(file, "build.gradle");
+      if (buildGradle.exists()) {
+        String projectPath = projectPrefix+file.getName();
+//      System.out.println("Subproject: " + projectPrefix+file.getName());
+        include projectPrefix+file.getName();
+        findSubprojects(file, projectPrefix+file.getName()+":");
+      }
+    }
+  }
+}
+
+findSubprojects(rootProject.projectDir, "")
+
+//include "opt4j"
+
+//include 'opt4j:opt4j-core'
+//include 'opt4j:opt4j-satdecoding'
+//include 'opt4j:opt4j-benchmarks'
+//include 'opt4j:opt4j-optimizers'
+//include 'opt4j:opt4j-operators'
+//include 'opt4j:opt4j-viewer'
+//include 'opt4j:opt4j-tutorial'
+
+//include 'dseconstraintcommons'
+//include 'dse'
+//include 'dsegui'
+//include 'dsesgx'
+//include 'dsevpc'
+//include 'dsesystemoc'
+//include 'dseautomotive'
+//include 'dseclu'
+//include 'SystemC-VPC'

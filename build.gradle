@@ -1,0 +1,72 @@
+// vim: set syntax=groovy sts=2 ts=8 et:
+
+apply plugin: 'org.gradle.lifecycle-base'
+apply plugin: 'java'
+
+allprojects {
+
+  buildDir = 'obj-gradle'
+  
+  ext.opt4jDependencies =
+    ['opt4j-core', 'opt4j-operators', 'opt4j-satdecoding', 'opt4j-optimizers', 'opt4j-viewer']
+    
+  repositories {
+    mavenCentral()
+  }
+  
+}
+
+['assemble', 'build', 'check', 'clean'].each {
+  Task task = tasks.getAt(it);
+  task.description = "This task ${it}s all subprojects."
+  childProjects.keySet().each { project -> task.dependsOn "$project:$it" }
+}
+
+def dseSubprojects = subprojects.inject([]) { l, subproject ->
+    if (subproject.name != "opt4j" &&
+        subproject.name != "Examples") {
+      l.add(subproject.path+":jar")
+    }
+    return l 
+  } 
+
+// This is for eclipse
+dependencies {
+  subprojects.each { subproject ->
+      if (subproject.name != "opt4j" &&
+          subproject.name != "Examples") {
+        compile subproject
+      }
+    }
+  compile fileTree(dir: 'lib', include: '*.jar')
+  runtime group: 'net.sf.jung', name: 'jung-api',           version: '2.0.1'
+  runtime group: 'net.sf.jung', name: 'jung-graph-impl',    version: '2.0.1'
+  runtime group: 'net.sf.jung', name: 'jung-algorithms',    version: '2.0.1'
+  runtime group: 'net.sf.jung', name: 'jung-visualization', version: '2.0.1'
+  runtime group: 'jdom', name: 'jdom', version: '1.1'
+  runtime group: 'com.google.code.gson', name: 'gson', version: '2.3.1'
+  runtime group: 'com.google.inject',            name: 'guice', version: '4.1.0'
+  runtime group: 'com.google.inject.extensions', name: 'guice-multibindings', version: '4.1.0'
+  runtime group: 'net.sourceforge.collections', name: 'collections-generic', version: '4.01'
+}
+
+task 'dse-dist'(dependsOn: dseSubprojects, type: Jar) {
+  group = "Build"
+  description = "This task assembles the self-contained dse-dist.jar"
+  destinationDir = new File(project.buildDir, 'dse-dist')
+  archiveName = 'dse-dist.jar'
+  from {
+    configurations.runtime.collect {
+      it.isDirectory() ? it : zipTree(it)
+    }
+  }
+//from zipTree(new File(parent.project("dse").buildDir, "jars/dse/jar/dse.jar"))
+//from zipTree(new File(parent.project("dseconstraintcommons").buildDir, "jars/constraintcommons/jar/constraintcommons.jar"))
+  fileTree(dir: 'lib', include: '*.jar').each {  
+    from zipTree(it)
+  }
+  manifest {
+    attributes 'Main-Class': 'org.opt4j.core.start.Opt4J'
+//  attributes 'SplashScreen-Image': 'img/splash.png'
+  }
+}
