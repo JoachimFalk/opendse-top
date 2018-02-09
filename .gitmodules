@@ -1,12 +1,12 @@
 [submodule "buildSrc"]
 	path = buildSrc
-	url = codesign:scd/src/common/GradleJFPlugins.git
+	url = https://github.com/JoachimFalk/common-GradleJFPlugins.git
 [submodule "opt4j-root"]
 	path = opt4j
-	url = codesign:scd/src/dse/opt4j.git
+	url = https://github.com/JoachimFalk/dse-opt4j.git
 [submodule "opendse-root"]
 	path = opendse-root
-	url = codesign:scd/src/dse/opendse.git
+	url = https://github.com/JoachimFalk/dse-opendse.git
 [submodule "Scripts"]
 	path = Scripts
-	url = codesign:scd/src/common/Scripts.git
+	url = https://github.com/JoachimFalk/common-Scripts.git
