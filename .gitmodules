@@ -2,7 +2,7 @@
 	path = buildSrc
 	url = codesign:scd/src/common/GradleJFPlugins.git
 [submodule "opt4j-root"]
-	path = opt4j-root
+	path = opt4j
 	url = codesign:scd/src/dse/opt4j.git
 [submodule "opendse-root"]
 	path = opendse-root
