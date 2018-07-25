@@ -5,7 +5,7 @@
 	path = opt4j
 	url = codesign:scd/src/dse/opt4j.git
 [submodule "opendse-root"]
-	path = opendse-root
+	path = opendse
 	url = codesign:scd/src/dse/opendse.git
 [submodule "Scripts"]
 	path = Scripts
