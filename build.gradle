@@ -9,7 +9,9 @@ allprojects {
   
   ext.opt4jDependencies =
     ['opt4j-core', 'opt4j-operators', 'opt4j-satdecoding', 'opt4j-optimizers', 'opt4j-viewer']
-    
+  ext.opendseDependencies =
+    ['opendse-generator', 'opendse-io', 'opendse-model', 'opendse-optimization', 'opendse-realtime', 'opendse-tutorial', 'opendse-visualization' ]
+
   repositories {
     mavenCentral()
   }

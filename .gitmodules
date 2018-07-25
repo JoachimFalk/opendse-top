@@ -5,7 +5,7 @@
 	path = opt4j
 	url = https://github.com/JoachimFalk/dse-opt4j.git
 [submodule "opendse-root"]
-	path = opendse-root
+	path = opendse
 	url = https://github.com/JoachimFalk/dse-opendse.git
 [submodule "Scripts"]
 	path = Scripts
