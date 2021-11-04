@@ -10,3 +10,6 @@
 [submodule "Scripts"]
 	path = Scripts
 	url = codesign:scd/src/common/Scripts.git
+[submodule "opendse-example"]
+	path = opendse-example
+	url = codesign:scd/src/dse/opendse-example.git
