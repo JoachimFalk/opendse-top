@@ -6,16 +6,24 @@ apply plugin: 'java'
 allprojects {
 
   buildDir = 'obj-gradle'
-  
+
+  ext.cxxBuild  = false
+  ext.javaBuild = true
+
   ext.opt4jDependencies =
     ['opt4j-core', 'opt4j-operators', 'opt4j-satdecoding', 'opt4j-optimizers', 'opt4j-viewer']
   ext.opendseDependencies =
     ['opendse-generator', 'opendse-io', 'opendse-model', 'opendse-optimization', 'opendse-realtime', 'opendse-tutorial', 'opendse-visualization' ]
 
   repositories {
+    maven {
+        name "jitpack"
+        url 'https://jitpack.io'
+    }
     mavenCentral()
+    jcenter()
   }
-  
+
 }
 
 ['assemble', 'build', 'check', 'clean'].each {
@@ -24,37 +32,31 @@ allprojects {
   childProjects.keySet().each { project -> task.dependsOn "$project:$it" }
 }
 
-def dseSubprojects = subprojects.inject([]) { l, subproject ->
-    if (subproject.name != "opt4j" &&
-        subproject.name != "opendse" &&
-        subproject.name != "Examples") {
+build.dependsOn 'dse-dist'
+
+def opendseSubprojects = subprojects.inject([]) { l, subproject ->
+    if (subproject.name.startsWith("opendse-")) {
       l.add(subproject.path+":jar")
     }
     return l 
   } 
 
-// This is for eclipse
 dependencies {
   subprojects.each { subproject ->
-      if (subproject.name != "opt4j" &&
-          subproject.name != "opendse" &&
-          subproject.name != "Examples") {
-        compile subproject
+      if (subproject.name.startsWith("opendse-")) {
+          runtime project(subproject.path)
       }
     }
-  compile fileTree(dir: 'lib', include: '*.jar')
-  runtime group: 'net.sf.jung', name: 'jung-api',           version: '2.0.1'
-  runtime group: 'net.sf.jung', name: 'jung-graph-impl',    version: '2.0.1'
-  runtime group: 'net.sf.jung', name: 'jung-algorithms',    version: '2.0.1'
-  runtime group: 'net.sf.jung', name: 'jung-visualization', version: '2.0.1'
-  runtime group: 'jdom', name: 'jdom', version: '1.1'
-  runtime group: 'com.google.code.gson', name: 'gson', version: '2.3.1'
-  runtime group: 'com.google.inject',            name: 'guice', version: '4.1.0'
-  runtime group: 'com.google.inject.extensions', name: 'guice-multibindings', version: '4.1.0'
-  runtime group: 'net.sourceforge.collections', name: 'collections-generic', version: '4.01'
 }
 
-task 'dse-dist'(dependsOn: dseSubprojects, type: Jar) {
+if (rootProject.getPath() == getPath()) {
+    wrapper {
+        distributionType = Wrapper.DistributionType.ALL
+        gradleVersion = '6.6.1'
+    }
+}
+
+task 'dse-dist'(dependsOn: opendseSubprojects, type: Jar) {
   group = "Build"
   description = "This task assembles the self-contained dse-dist.jar"
   destinationDir = new File(project.buildDir, 'dse-dist')
@@ -66,11 +68,16 @@ task 'dse-dist'(dependsOn: dseSubprojects, type: Jar) {
   }
 //from zipTree(new File(parent.project("dse").buildDir, "jars/dse/jar/dse.jar"))
 //from zipTree(new File(parent.project("dseconstraintcommons").buildDir, "jars/constraintcommons/jar/constraintcommons.jar"))
-  fileTree(dir: 'lib', include: '*.jar').each {  
-    from zipTree(it)
-  }
+//fileTree(dir: 'lib', include: '*.jar').each {  
+//  from zipTree(it)
+//}
   manifest {
     attributes 'Main-Class': 'org.opt4j.core.start.Opt4J'
 //  attributes 'SplashScreen-Image': 'img/splash.png'
   }
+}
+
+task 'run'(dependsOn: 'dse-dist', type: JavaExec) {
+  main = 'org.opt4j.core.start.Opt4J'
+  classpath = files(tasks.'dse-dist'.archivePath)
 }

@@ -1,15 +1,16 @@
-[submodule "buildSrc"]
-	path = buildSrc
-	url = codesign:scd/src/common/GradleJFPlugins.git
-[submodule "opt4j-root"]
-	path = opt4j
-	url = codesign:scd/src/dse/opt4j.git
-[submodule "opendse-root"]
-	path = opendse
-	url = codesign:scd/src/dse/opendse.git
-[submodule "Scripts"]
-	path = Scripts
-	url = codesign:scd/src/common/Scripts.git
-[submodule "opendse-example"]
-	path = opendse-example
-	url = codesign:scd/src/dse/opendse-example.git
+[submodule "top/Scripts"]
+	path = top/Scripts
+	url = codesign:sda/src/common/Scripts.git
+	branch = master
+[submodule "top/opt4j"]
+	path = top/opt4j
+	url = codesign:sda/src/opendse/opt4j.git
+	branch = jfalk/3.3.0
+[submodule "top/opendse"]
+	path = top/opendse
+	url = codesign:sda/src/opendse/opendse.git
+	branch = master
+[submodule "top/opendse-example"]
+	path = top/opendse-example
+	url = codesign:sda/src/opendse/opendse-example.git
+	branch = master
