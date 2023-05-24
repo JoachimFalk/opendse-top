@@ -1,12 +1,16 @@
-[submodule "buildSrc"]
-	path = buildSrc
-	url = https://github.com/JoachimFalk/common-GradleJFPlugins.git
-[submodule "opt4j-root"]
-	path = opt4j
-	url = https://github.com/JoachimFalk/dse-opt4j.git
-[submodule "opendse-root"]
-	path = opendse
-	url = https://github.com/JoachimFalk/dse-opendse.git
-[submodule "Scripts"]
-	path = Scripts
+[submodule "top/Scripts"]
+	path = top/Scripts
 	url = https://github.com/JoachimFalk/common-Scripts.git
+	branch = master
+[submodule "top/opt4j"]
+	path = top/opt4j
+	url = https://github.com/JoachimFalk/dse-opt4j.git
+	branch = jfalk/3.3.0
+[submodule "top/opendse"]
+	path = top/opendse
+	url = https://github.com/JoachimFalk/dse-opendse.git
+	branch = master
+[submodule "top/opendse-example"]
+	path = top/opendse-example
+	url = https://github.com/JoachimFalk/dse-opendse-example.git
+	branch = master
